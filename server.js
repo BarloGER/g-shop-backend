@@ -1,10 +1,11 @@
 import * as dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import db from "./db.js";
 import usersRouter from "./routes/users.js";
 
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -22,5 +23,5 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  console.log(`Server is running  on port ${PORT}`);
 });
