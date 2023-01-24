@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+// For new customer form
 const User = new Schema({
   salutation: { type: String, required: true },
   firstname: { type: String, required: true },
