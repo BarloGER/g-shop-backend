@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 // ? Maybe switch arrow function to function keyword
 // ? Maybe implement email in token
 
-//  Get all users
+//  ----- Get all users from DB ----- //
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -15,6 +15,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// ----- Get a single user from DB -----//
 const getSingleUser = async (req, res) => {
   try {
     const { userId } = req;
@@ -26,6 +27,7 @@ const getSingleUser = async (req, res) => {
   }
 };
 
+// ----- Create a user in DB ----- //
 const createUser = async (req, res) => {
   const {
     salutation,
@@ -42,16 +44,14 @@ const createUser = async (req, res) => {
     tel,
   } = req.body;
   console.log(req.body);
-  // If user is found per email in the DB, it will tell the user to put in another email
   try {
-    const found = await User.findOne({ email });
-    if (found)
-      return res
-        .status(400)
-        .send("Email bereits vorhanden, bitte eine andere angeben");
-    // Hashes pw 5 times
+    // If email is already registered, send status code 422.
+    const alreadyRegistered = await User.findOne({ email });
+    if (alreadyRegistered)
+      return res.status(422).send("Email bereits registriert.");
+    // Hashes password with a salt of 5.
     const hash = await bcrypt.hash(password, 5);
-    // Send the user with hashed pw into the DB
+    // Create user with hashed password in DB
     const { _id } = await User.create({
       salutation,
       firstname,
@@ -66,11 +66,11 @@ const createUser = async (req, res) => {
       country,
       tel,
     });
-    // Creates JWT and send data into the payload
-    const token = jwt.sign({ _id }, process.env.SECRET_KEY, {
+    // Create new JWT and send id in payload, expires after (x) time.
+    const newToken = jwt.sign({ _id }, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-    return res.status(200).json(token);
+    return res.status(200).json(newToken);
   } catch (err) {
     res
       .status(500)
@@ -78,25 +78,26 @@ const createUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {
+// ----- Handles Login ----- //
+const handleLogin = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email }).select("+password");
     if (!user) return res.send("Bitte zuerst registrieren");
     const pass = await bcrypt.compare(req.body.password, user.password);
     if (!pass) return res.send("passwort ist falsch");
-    const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
-    return res.status(200).json(token);
+    const newToken = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+    return res.status(200).json(newToken);
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
 
-const crudFunctions = {
+const crudFunc = {
   getAllUsers,
   createUser,
   getSingleUser,
-  loginUser,
+  handleLogin,
 };
 
-export default crudFunctions;
+export default crudFunc;

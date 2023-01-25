@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import db from "./db.js";
+import connectToDB from "./db.js";
 import usersRouter from "./routes/users.js";
 
 const app = express();
@@ -13,8 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-// Connection to DB
-db();
+connectToDB();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -23,5 +22,5 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running  on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

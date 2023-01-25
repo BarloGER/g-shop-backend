@@ -1,19 +1,16 @@
 import mongoose from "mongoose";
 
-const db = async (req, res) => {
+const connectToDB = async (req, res) => {
   try {
     const URI = process.env.MONGO_URI;
-    // Set strictQuery, true to prepare for chances comming with moongose 7
+    // Set strictQuery, true to prepare for mongoose v7 changes
     mongoose.set("strictQuery", true);
-    // With true only fields defined in the Schemas will be saved to DB
-    // False will save everything
     mongoose.connect(URI);
     console.log("Connected to DB");
   } catch (err) {
     console.log(err.message);
-    res.status(500).send("Could not connect to DB");
     process.exit();
   }
 };
 
-export default db;
+export default connectToDB;
