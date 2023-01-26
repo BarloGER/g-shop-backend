@@ -1,26 +1,18 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "./db/index.js";
 import express from "express";
 import cors from "cors";
-import connectToDB from "./db.js";
-import usersRouter from "./routes/users.js";
+import authRouter from "./routes/authRouter.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use("/auth", authRouter);
+app.use("*", (req, res) => res.sendStatus(404));
+app.use(errorHandler);
 
-connectToDB();
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.use("/users", usersRouter);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(port, () =>
+  console.log(`Server is running at http://localhost:${PORT}`)
+);
