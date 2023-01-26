@@ -17,5 +17,5 @@ export const userSchema = Joi.object({
 
 export const siginSchema = Joi.object({
   email: Joi.string().required(),
-  password: Joi.string().alphanum().min(8).max(12).required(),
+  password: Joi.string().required(),
 });

@@ -13,6 +13,6 @@ app.use("/auth", authRouter);
 app.use("*", (req, res) => res.sendStatus(404));
 app.use(errorHandler);
 
-app.listen(PORT, () =>
-  console.log(`Server is running at http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});
