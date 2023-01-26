@@ -14,7 +14,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
   if (found) throw new ErrorResponse("Email existiert bereits", 403);
   const hash = await bcrypt.hash(password, 5);
   const { _id } = await User.create({ ...rest, email, password: hash });
-  const token = jwt.sign({ _id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id }, process.env.SECRET_KEY);
   res.status(201).json({ token });
 });
 
@@ -29,8 +29,8 @@ export const signIn = asyncHandler(async (req, res, next) => {
       404
     );
   const match = await bcrypt.compare(password, found.password);
-  if (!match) throw new ErrorResponse(`Passwort stimmt nicht überein.`, 401);
-  const token = jwt.sign({ _id: found._id }, process.env.JWT_SECRET);
+  if (!match) throw new ErrorResponse(`Falsches Passwort.`, 401);
+  const token = jwt.sign({ _id: found._id }, process.env.SECRET_KEY);
   res.status(201).json({ token });
 });
 
