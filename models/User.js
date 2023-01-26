@@ -1,6 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
-const User = new Schema({
+// ----- Necessary data for SignUp, to create a user in DB ----- //
+const userSchema = new Schema({
   salutation: { type: String, required: true },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
@@ -15,7 +16,4 @@ const User = new Schema({
   tel: { type: String, required: false },
 });
 
-const model = mongoose.model("users", User);
-
-export const schema = model.schema;
-export default model;
+export default model("User", userSchema);
