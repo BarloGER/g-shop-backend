@@ -1,3 +1,4 @@
+// Creates the err messages
 class ErrorResponse extends Error {
   constructor({ message, statusCode, errorType, errorCode }) {
     super(message);

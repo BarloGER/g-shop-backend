@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+// ----- Validate user data on SignUp ----- //
 export const userSchema = Joi.object({
   salutation: Joi.string().required(),
   firstname: Joi.string().required(),
@@ -15,6 +16,7 @@ export const userSchema = Joi.object({
   tel: Joi.string().required(),
 });
 
+// ----- Validate user data on SignIn ----- //
 export const siginSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),

@@ -6,6 +6,7 @@ import ErrorResponse from "../utils/ErrorResponse.js";
 
 // ? Maybe switch arrow function to function keyword
 
+// -----  ----- //
 export const signUp = asyncHandler(async (req, res, next) => {
   const {
     body: { email, password, ...rest },

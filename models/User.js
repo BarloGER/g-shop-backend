@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+// ----- Necessary data for SignUp, to create a user in DB ----- //
 const userSchema = new Schema({
   salutation: { type: String, required: true },
   firstname: { type: String, required: true },
