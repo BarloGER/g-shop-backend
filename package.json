@@ -1,6 +1,6 @@
 {
   "name": "g-shop-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Backend for G-Shop",
   "main": "server.js",
   "type": "module",

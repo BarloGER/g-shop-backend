@@ -13,7 +13,7 @@ export const userSchema = Joi.object({
   street: Joi.string().required(),
   street_number: Joi.string().required(),
   country: Joi.string().required(),
-  tel: Joi.string().required(),
+  tel: Joi.string(),
 });
 
 // ----- Validate user data on SignIn ----- //
