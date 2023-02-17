@@ -6,7 +6,7 @@ import ErrorResponse from "../utils/ErrorResponse.js";
 
 // ? Maybe switch arrow function to function keyword
 
-// -----  ----- //
+// This function is called when the user signs up
 export const signUp = asyncHandler(async (req, res, next) => {
   const {
     body: { email, password, ...rest },
@@ -24,7 +24,9 @@ export const signUp = asyncHandler(async (req, res, next) => {
   const token = jwt.sign({ _id }, process.env.SECRET_KEY);
   res.status(201).json({ token });
 });
+//--------------------------------------------------------------
 
+// This function is called when the user signs in
 export const signIn = asyncHandler(async (req, res, next) => {
   const {
     body: { email, password },
@@ -48,7 +50,9 @@ export const signIn = asyncHandler(async (req, res, next) => {
   const token = jwt.sign({ _id: found._id }, process.env.SECRET_KEY);
   res.status(201).json({ token });
 });
+//--------------------------------------------------------------
 
+// This function is called when the user wants to get his data from the DB (e.g. for the profile page)
 export const getUser = asyncHandler(async (req, res, next) => {
   const { userId } = req;
   const user = await User.findById(userId);

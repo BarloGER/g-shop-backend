@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// ----- Connects to DB ----- //
+// Connect to MongoDB
 try {
   // Set strictQuery, true to prepare for mongoose v7 changes
   mongoose.set("strictQuery", true);

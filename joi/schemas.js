@@ -1,6 +1,8 @@
 import Joi from "joi";
 
-// ----- Validate user data on SignUp ----- //
+// Checks data from frontend and returns error message to use in frontend if data is invalid
+
+// Checks SignUp data
 export const userSchema = Joi.object({
   salutation: Joi.string()
     .required()
@@ -82,7 +84,7 @@ export const userSchema = Joi.object({
     }),
 });
 
-// ----- Validate user data on SignIn ----- //
+// Checks SignIn data
 export const siginSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "de", "net"] } })

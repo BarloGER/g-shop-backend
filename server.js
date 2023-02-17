@@ -7,22 +7,22 @@ import "./db/index.js";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// ----- Will allow requests from every origin ----- //
+// Will allow requests from every origin
 app.use(cors({ origin: "*" }));
 
-// ----- Parse incoming requests with JSON payload ----- //
+// Parse incoming requests with JSON payload
 app.use(express.json());
 
-// ----- Parse incoming requests with URL-encoded payload ----- //
+// Parse incoming requests with URL-encoded payload
 app.use(express.urlencoded());
 
-// ----- Router ----- //
+// Route for authentication (signup, signin, get user profile)
 app.use("/auth", authRouter);
 
-// ----- If previous routes dont match request, sends 404 ----- //
+// Route for non-existing routes
 app.use("*", (req, res) => res.sendStatus(404));
 
-// ----- Sends err message to client ----- //
+// Sends errors to client
 app.use(errorHandler);
 
 app.listen(PORT, () => {
