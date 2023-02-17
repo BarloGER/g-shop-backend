@@ -6,13 +6,13 @@ import verifyToken from "../middlewares/verifyToken.js";
 
 const authRouter = Router();
 
-// ----- Route for SignUp ----- //
+// Route for SignUp (with JOI validation)
 authRouter.post("/signup", validateJOI(userSchema), signUp);
 
-// ----- Route for SignIn ----- //
+// Route for SignIn (with JOI validation)
 authRouter.post("/signin", validateJOI(siginSchema), signIn);
 
-// ----- Route for user profile ----- //
+// Route for user profile (with JWT verification)
 authRouter.get("/me", verifyToken, getUser);
 
 export default authRouter;
