@@ -6,14 +6,14 @@ export const userSchema = Joi.object({
     .required()
     .messages({ "string.empty": "Anrede muss angegeben werden" }),
   firstname: Joi.string()
-    .regex(/^[A-Z][a-z]*$/)
+    .regex(/^[A-ZÄÖÜa-zäöüß\u00C0-\u00FF]*$/)
     .required()
     .messages({
       "string.pattern.base": "Der Vorname darf nur aus Buchstaben bestehen",
       "string.empty": "Der Vorname muss angegeben werden",
     }),
   lastname: Joi.string()
-    .regex(/^[A-Z][a-z]*$/)
+    .regex(/^[A-ZÄÖÜa-zäöüß\u00C0-\u00FF]*$/)
     .required()
     .messages({
       "string.pattern.base": "Der Nachname darf nur aus Buchstaben bestehen",
@@ -43,14 +43,14 @@ export const userSchema = Joi.object({
     "string.max": "Die Postleitzahl darf höchstens {#limit} Zeichen lang sein",
   }),
   city: Joi.string()
-    .regex(/^[A-Z][a-z]*$/)
+    .regex(/^[A-ZÄÖÜßa-zäöüß]*$/)
     .required()
     .messages({
       "string.empty": "Die Stadt muss angegeben werden",
       "string.pattern.base": "Die Stadt darf nur aus Buchstaben bestehen",
     }),
   street: Joi.string()
-    .regex(/^[A-Z][a-z -]+$/)
+    .regex(/^[a-zA-ZÖÜÄöüß\s.-]+$/)
     .required()
     .messages({
       "string.empty": "Die Straße muss angegeben werden",
@@ -58,7 +58,7 @@ export const userSchema = Joi.object({
         "Die Straße darf nur aus Buchstaben, Leerzeichen oder Bindestrich bestehen",
     }),
   street_number: Joi.string()
-    .regex(/^[a-zA-Z0-9]+$/)
+    .regex(/^[0-9a-zA-Z]+$/)
     .min(1)
     .max(5)
     .required()
@@ -69,13 +69,10 @@ export const userSchema = Joi.object({
       "string.min": "Die Hausnummer muss mindestens {#limit} Zeichen lang sein",
       "string.max": "Die Hausnummer darf höchstens {#limit} Zeichen lang sein",
     }),
-  country: Joi.string()
-    .regex(/^[A-Z][a-zßäöüÄÖÜ]*$/)
-    .required()
-    .messages({
-      "string.empty": "Das Land muss angegeben werden",
-      "string.pattern.base": "Das Land darf nur aus Buchstaben bestehen",
-    }),
+  country: Joi.string().required().messages({
+    "string.empty": "Das Land muss angegeben werden",
+    "string.pattern.base": "Das Land darf nur aus Buchstaben bestehen",
+  }),
   tel: Joi.string()
     .regex(/^\+[0-9]+$/)
     .messages({
