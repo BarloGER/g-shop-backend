@@ -14,7 +14,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
   const found = await User.findOne({ email });
   if (found)
     throw new ErrorResponse({
-      message: "Email existiert bereits",
+      message: "E-Mail existiert bereits",
       statusCode: 403,
       errorType: "Validation Error",
       errorCode: "AUTH_001",

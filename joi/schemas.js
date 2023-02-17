@@ -2,22 +2,101 @@ import Joi from "joi";
 
 // ----- Validate user data on SignUp ----- //
 export const userSchema = Joi.object({
-  salutation: Joi.string().required(),
-  firstname: Joi.string().required(),
-  lastname: Joi.string().required(),
-  birth_date: Joi.string().required(),
-  email: Joi.string().required(),
-  password: Joi.string().alphanum().min(8).max(12).required(),
-  zip_code: Joi.number().required(),
-  city: Joi.string().required(),
-  street: Joi.string().required(),
-  street_number: Joi.string().required(),
-  country: Joi.string().required(),
-  tel: Joi.string(),
+  salutation: Joi.string()
+    .required()
+    .messages({ "string.empty": "Anrede muss angegeben werden" }),
+  firstname: Joi.string()
+    .regex(/^[A-Z][a-z]*$/)
+    .required()
+    .messages({
+      "string.pattern.base": "Der Vorname darf nur aus Buchstaben bestehen",
+      "string.empty": "Der Vorname muss angegeben werden",
+    }),
+  lastname: Joi.string()
+    .regex(/^[A-Z][a-z]*$/)
+    .required()
+    .messages({
+      "string.pattern.base": "Der Nachname darf nur aus Buchstaben bestehen",
+      "string.empty": "Der Nachname muss angegeben werden",
+    }),
+  birth_date: Joi.date().less("now").required().messages({
+    "date.base": "Das Geburtsdatum muss aus Zahlen bestehen",
+    "date.less": "Das Geburtsdatum darf nicht in der Zukunft liegen",
+    "date.empty": "Das Geburtsdatum muss angegeben werden",
+  }),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "de", "net"] } })
+    .required()
+    .messages({
+      "string.email": "Die E-Mail muss mit .com, .de oder .net enden",
+      "string.empty": "Die E-Mail muss angegeben werden",
+    }),
+  password: Joi.string().min(8).max(20).required().messages({
+    "string.min": "Passwort muss mindestens {#limit} Zeichen lang sein",
+    "string.max": "Passwort darf höchstens {#limit} Zeichen lang sein",
+    "string.empty": "Passwort muss angegeben werden",
+  }),
+  zip_code: Joi.string().regex(/^\d+$/).min(4).max(5).required().messages({
+    "string.empty": "Die Postleitzahl muss angegeben werden",
+    "string.pattern.base": "Die Postleitzahl darf nur Nummern enthalten",
+    "string.min": "Die Postleitzahl muss mindestens {#limit} Zeichen lang sein",
+    "string.max": "Die Postleitzahl darf höchstens {#limit} Zeichen lang sein",
+  }),
+  city: Joi.string()
+    .regex(/^[A-Z][a-z]*$/)
+    .required()
+    .messages({
+      "string.empty": "Die Stadt muss angegeben werden",
+      "string.pattern.base": "Die Stadt darf nur aus Buchstaben bestehen",
+    }),
+  street: Joi.string()
+    .regex(/^[A-Z][a-z -]+$/)
+    .required()
+    .messages({
+      "string.empty": "Die Straße muss angegeben werden",
+      "string.pattern.base":
+        "Die Straße darf nur aus Buchstaben, Leerzeichen oder Bindestrich bestehen",
+    }),
+  street_number: Joi.string()
+    .regex(/^[a-zA-Z0-9]+$/)
+    .min(1)
+    .max(5)
+    .required()
+    .messages({
+      "string.empty": "Die Hausnummer muss angegeben werden",
+      "string.pattern.base":
+        "Die Hausnummer darf nur aus Buchstaben und Zahlen bestehen",
+      "string.min": "Die Hausnummer muss mindestens {#limit} Zeichen lang sein",
+      "string.max": "Die Hausnummer darf höchstens {#limit} Zeichen lang sein",
+    }),
+  country: Joi.string()
+    .regex(/^[A-Z][a-zßäöüÄÖÜ]*$/)
+    .required()
+    .messages({
+      "string.empty": "Das Land muss angegeben werden",
+      "string.pattern.base": "Das Land darf nur aus Buchstaben bestehen",
+    }),
+  tel: Joi.string()
+    .regex(/^\+[0-9]+$/)
+    .messages({
+      "string.empty": "Die Telefonnummer muss angegeben werden",
+      "string.pattern.base":
+        "Die Telefonnummer muss mit '+' beginnen und darf nur aus Zahlen bestehen",
+    }),
 });
 
 // ----- Validate user data on SignIn ----- //
 export const siginSchema = Joi.object({
-  email: Joi.string().required(),
-  password: Joi.string().required(),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "de", "net"] } })
+    .required()
+    .messages({
+      "string.email": "Die E-Mail muss mit .com, .de oder .net enden",
+      "string.empty": "Die E-Mail muss angegeben werden",
+    }),
+  password: Joi.string().min(8).max(20).required().messages({
+    "string.min": "Passwort muss mindestens {#limit} Zeichen lang sein",
+    "string.max": "Passwort darf höchstens {#limit} Zeichen lang sein",
+    "string.empty": "Passwort muss angegeben werden",
+  }),
 });
