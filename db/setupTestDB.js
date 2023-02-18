@@ -16,7 +16,7 @@ const dropTestDB = async () => {
   if (mongod) {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
-    await mongod.stop();
+    process.exit();
   }
 };
 

@@ -15,12 +15,12 @@ describe("signUp", () => {
     await connectTestDB();
   });
 
-  after(async () => {
-    await dropTestDB();
-  });
-
   afterEach(async () => {
     await dropTestCollections();
+  });
+
+  after(async () => {
+    await dropTestDB();
   });
 
   it("should create a new user and return a token", async () => {
