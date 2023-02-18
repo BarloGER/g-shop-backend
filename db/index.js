@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 // Connect to MongoDB
 const env = process.env.NODE_ENV;
-if (env !== "test") {
+console.log(env + " environment");
+if (env === "development") {
   try {
     // Set strictQuery, true to prepare for mongoose v7 changes
     mongoose.set("strictQuery", true);
