@@ -5,8 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config.js server.js",
-    "start": "node server.js"
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config.js server.js",
+    "start": "cross-env NODE_ENV=development node server.js",
+    "test": "cross-env NODE_ENV=test mocha -r dotenv/config.js --timeout 60000 --recursive"
   },
   "keywords": [],
   "author": "Mike Barlozewski",
@@ -22,6 +23,11 @@
     "nodemon": "^2.0.20"
   },
   "devDependencies": {
-    "dotenv": "^16.0.3"
+    "chai": "*",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "mocha": "*",
+    "mongodb-memory-server": "^8.11.4",
+    "supertest": "^6.3.3"
   }
 }

@@ -1,5 +1,7 @@
 import Joi from "joi";
 
+//ToDo: Improve password validation for saver passwords
+
 // Checks data from frontend and returns error message to use in frontend if data is invalid
 
 // Checks SignUp data
