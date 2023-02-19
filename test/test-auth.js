@@ -136,6 +136,8 @@ describe("Authentication", () => {
     });
   });
 
+  //------------------------------------------------------------------------------
+
   describe("POST /auth/signin", () => {
     before(async () => {
       await connectTestDB();
@@ -214,6 +216,8 @@ describe("Authentication", () => {
       expect(response.body.errorCode).to.equal("AUTH_003");
     });
   });
+
+  //------------------------------------------------------------------------------
 
   describe("GET /auth/me", () => {
     before(async () => {
