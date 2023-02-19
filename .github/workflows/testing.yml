@@ -29,6 +29,4 @@ jobs:
         env:
           NODE_ENV: ${{ secrets.NODE_ENV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          JWT_EXPIRE: ${{ secrets.JWT_EXPIRE }}
         run: npm test
