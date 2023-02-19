@@ -1,5 +1,7 @@
 import Joi from "joi";
 
+//ToDo: Fix birth_date validation
+//ToDo: street_number min 1?
 //ToDo: Improve password validation for saver passwords
 
 // Checks data from frontend and returns error message to use in frontend if data is invalid
@@ -24,7 +26,7 @@ export const userSchema = Joi.object({
       "string.empty": "Der Nachname muss angegeben werden",
     }),
   birth_date: Joi.date().less("now").required().messages({
-    "date.base": "Das Geburtsdatum muss aus Zahlen bestehen",
+    "date.base": "Das Geburtsdatum muss angegeben werden",
     "date.less": "Das Geburtsdatum darf nicht in der Zukunft liegen",
     "date.empty": "Das Geburtsdatum muss angegeben werden",
   }),
@@ -73,21 +75,23 @@ export const userSchema = Joi.object({
       "string.min": "Die Hausnummer muss mindestens {#limit} Zeichen lang sein",
       "string.max": "Die Hausnummer darf höchstens {#limit} Zeichen lang sein",
     }),
-  country: Joi.string().required().messages({
-    "string.empty": "Das Land muss angegeben werden",
-    "string.pattern.base": "Das Land darf nur aus Buchstaben bestehen",
-  }),
+  country: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .required()
+    .messages({
+      "string.empty": "Das Land muss angegeben werden",
+      "string.pattern.base": "Das Land darf nur aus Buchstaben bestehen",
+    }),
   tel: Joi.string()
     .regex(/^\+[0-9]+$/)
     .messages({
-      "string.empty": "Die Telefonnummer muss angegeben werden",
       "string.pattern.base":
         "Die Telefonnummer muss mit '+' beginnen und darf nur aus Zahlen bestehen",
     }),
 });
 
 // Checks SignIn data
-export const siginSchema = Joi.object({
+export const signInSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "de", "net"] } })
     .required()
