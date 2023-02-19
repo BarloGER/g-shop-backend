@@ -8,25 +8,19 @@ const connectTestDB = async () => {
   mongoose.set("strictQuery", true);
   mongod = await MongoMemoryServer.create();
   const uri = mongod.getUri();
-  const client = await mongoose.connect(uri);
-  console.log(`Connected to MongoDB @ ${client.connection.host}`);
+  await mongoose.connect(uri);
 };
 
-const dropTestDB = async () => {
-  if (mongod) {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-    process.exit();
-  }
+const disconnectTestDB = async () => {
+  await mongoose.disconnect();
+  await mongod.stop();
 };
 
 const dropTestCollections = async () => {
-  if (mongod) {
-    const collections = await mongoose.connection.db.collections();
-    for (let collection of collections) {
-      await collection.deleteMany();
-    }
+  const collections = await mongoose.connection.db.collections();
+  for (let collection of collections) {
+    await collection.deleteMany();
   }
 };
 
-export { connectTestDB, dropTestDB, dropTestCollections };
+export { connectTestDB, disconnectTestDB, dropTestCollections };

@@ -55,6 +55,6 @@ export const signIn = asyncHandler(async (req, res, next) => {
 // This function is called when the user wants to get his data from the DB (e.g. for the profile page)
 export const getUser = asyncHandler(async (req, res, next) => {
   const { userId } = req;
-  const user = await User.findById(userId);
-  res.status(201).json(user);
+  const user = await User.findById(userId).select("-password");
+  res.status(200).json(user);
 });
