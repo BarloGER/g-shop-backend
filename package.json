@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config.js server.js",
     "start": "cross-env NODE_ENV=development node server.js",
-    "test": "cross-env NODE_ENV=test mocha -r dotenv/config.js --timeout 60000 --recursive"
+    "test": "cross-env NODE_ENV=test mocha -r dotenv/config.js --timeout 60000 --recursive --exit"
   },
   "keywords": [],
   "author": "Mike Barlozewski",
