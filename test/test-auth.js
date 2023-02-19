@@ -98,7 +98,7 @@ describe("Authentication", () => {
       expect(response.body.errorCode).to.equal("AUTH_001");
     });
 
-    it("should return a 500 error if any required fields are missing", async () => {
+    it("should return a 400 error if any required fields are missing", async () => {
       const requiredFields = [
         "salutation",
         "firstname",
@@ -130,7 +130,7 @@ describe("Authentication", () => {
       const response = await request(app)
         .post("/auth/signup")
         .send(user)
-        .expect(500);
+        .expect(400);
 
       expect(response.body.error).to.equal(`"${missingFields[0]}" is required`);
     });
