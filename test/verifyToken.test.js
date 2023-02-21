@@ -64,7 +64,7 @@ describe("Verify Token", () => {
 
       expect(response.body.error).to.equal("Bitte zuerst einloggen.");
       expect(response.body.errorType).to.equal("Unauthorized");
-      expect(response.body.errorCode).to.equal("AUTH_004");
+      expect(response.body.errorCode).to.equal("AUTH_005");
     });
   });
 });
