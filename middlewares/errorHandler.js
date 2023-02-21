@@ -6,6 +6,7 @@ const errorHandler = (err, req, res, next) => {
     error: err.message,
     errorType: err.errorType,
     errorCode: err.errorCode,
+    // statusCode: err.statusCode,
   });
 };
 
