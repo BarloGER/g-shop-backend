@@ -58,3 +58,20 @@ export const getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(userId).select("-password");
   res.status(200).json(user);
 });
+//--------------------------------------------------------------
+
+// This function is called to delete the user from the DB
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ErrorResponse({
+      message: `User mit id ${userId} nicht gefunden.`,
+      statusCode: 404,
+      errorType: "Not Found",
+      errorCode: "AUTH_004",
+    });
+  }
+  await user.remove();
+  res.status(200).json({ message: "User erfolgreich gelöscht." });
+});
