@@ -20,11 +20,11 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.4",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "chai": "*",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "mocha": "*",
     "mongodb-memory-server": "^8.11.4",
