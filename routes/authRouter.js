@@ -1,7 +1,7 @@
 import { Router } from "express";
-import validateJOI from "../middlewares/validateJOI.js";
 import { getUser, signIn, signUp, deleteUser } from "../controllers/auth.js";
 import { signInSchema, userSchema } from "../joi/schemas.js";
+import validateJOI from "../middlewares/validateJOI.js";
 import verifyToken from "../middlewares/verifyToken.js";
 
 const authRouter = Router();
