@@ -273,4 +273,74 @@ describe("Authentication", () => {
       expect(response.body.errorCode).to.equal("AUTH_005");
     });
   });
+
+  describe("DELETE /auth/me", () => {
+    let user;
+
+    before(async () => {
+      await connectTestDB();
+    });
+
+    beforeEach(async () => {
+      await dropTestCollections();
+      user = {
+        _id: "605cb50d68b21b14dcf9a1a3",
+        salutation: "Herr",
+        firstname: "Max",
+        lastname: "Mustermann",
+        birth_date: "1992-01-01",
+        email: "max.mustermann@example.com",
+        password: await bcrypt.hash("12345678", 5),
+        zip_code: "12345",
+        city: "Berlin",
+        street: "Musterstraße",
+        street_number: "1a",
+        country: "Deutschland",
+        tel: "+491234567891",
+      };
+      await User.create(user);
+    });
+
+    after(async () => {
+      await disconnectTestDB();
+    });
+
+    it("should delete the user from the DB", async () => {
+      const token = jwt.sign(
+        { _id: "605cb50d68b21b14dcf9a1a3" },
+        process.env.SECRET_KEY
+      );
+
+      const response = await request(app)
+        .delete("/auth/me")
+        .set("Authorization", token)
+        .expect(200);
+      expect(response.body.message).to.equal("User erfolgreich gelöscht.");
+    });
+
+    it("should return 401 if the token is not provided", async () => {
+      const response = await request(app).delete("/auth/me").expect(401);
+
+      expect(response.body.error).to.equal("Bitte zuerst einloggen.");
+      expect(response.body.errorType).to.equal("Unauthorized");
+      expect(response.body.errorCode).to.equal("AUTH_005");
+    });
+
+    it("should return 401 if the token is invalid", async () => {
+      const token = jwt.sign(
+        { _id: "invalidToken" },
+
+        process.env.SECRET_KEY
+      );
+
+      const response = await request(app)
+        .delete("/auth/me")
+        .set("Authorization", token)
+        .expect(404);
+
+      expect(response.body.error).to.equal(`User nicht gefunden.`);
+      expect(response.body.errorType).to.equal("Not Found");
+      expect(response.body.errorCode).to.equal("AUTH_004");
+    });
+  });
 });

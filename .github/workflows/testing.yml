@@ -29,4 +29,6 @@ jobs:
         env:
           NODE_ENV: ${{ secrets.NODE_ENV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_URI_TEST: ${{ secrets.MONGO_URI_TEST }}
         run: npm test

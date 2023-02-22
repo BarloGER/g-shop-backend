@@ -66,7 +66,7 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(userId);
   if (!user) {
     throw new ErrorResponse({
-      message: `User mit id ${userId} nicht gefunden.`,
+      message: `User nicht gefunden.`,
       statusCode: 404,
       errorType: "Not Found",
       errorCode: "AUTH_004",

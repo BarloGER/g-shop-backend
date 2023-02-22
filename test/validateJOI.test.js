@@ -53,6 +53,30 @@ describe("Validate Joi", () => {
     expect(response.body.error).to.be.undefined;
   });
 
+  it("should return a 400 error if the request body is an empty object", async () => {
+    const user = {};
+
+    const appWithMiddleware = app;
+    appWithMiddleware.post(
+      "/auth/signup",
+      validateJOI(userSchema),
+      (req, res) => {
+        res.sendStatus(200);
+      }
+    );
+
+    const response = await request(appWithMiddleware)
+      .post("/auth/signup")
+      .send(user)
+      .expect(400);
+
+    expect(response.body.error).to.equal(
+      "Keine Daten zum Validieren vorhanden."
+    );
+    expect(response.body.errorType).to.equal("Validation Error");
+    expect(response.body.errorCode).to.equal("Joi_002");
+  });
+
   it("should return a 400 error if the request body is invalid", async () => {
     const user = {
       salutation: "Herr",
