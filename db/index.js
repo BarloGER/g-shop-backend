@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+// ToDo: Improve test coverage
+
 // Connect to MongoDB
 const env = process.env.NODE_ENV;
 console.log(env + " environment");

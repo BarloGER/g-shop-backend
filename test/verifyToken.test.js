@@ -47,24 +47,32 @@ describe("Verify Token", () => {
     await User.deleteMany({});
   });
 
-  describe("With a valid token", () => {
-    it("should set req.userId to the decoded user ID if a valid authorization header is provided", async () => {
-      const response = await request(app)
-        .get("/auth/me")
-        .set("Authorization", token)
-        .expect(200);
+  it("should set req.userId to the decoded user ID if a valid authorization header is provided", async () => {
+    const response = await request(app)
+      .get("/auth/me")
+      .set("Authorization", token)
+      .expect(200);
 
-      expect(response.body._id).to.equal("605cb50d68b21b14dcf9a1a3");
-    });
+    expect(response.body._id).to.equal("605cb50d68b21b14dcf9a1a3");
   });
 
-  describe("Without a valid token", () => {
-    it("should return 401 Unauthorized if no authorization header is provided", async () => {
-      const response = await request(app).get("/auth/me").expect(401);
+  it("should return 401 Unauthorized if no authorization header is provided", async () => {
+    const response = await request(app).get("/auth/me").expect(401);
 
-      expect(response.body.error).to.equal("Bitte zuerst einloggen.");
-      expect(response.body.errorType).to.equal("Unauthorized");
-      expect(response.body.errorCode).to.equal("AUTH_005");
-    });
+    expect(response.body.error).to.equal("Bitte zuerst einloggen.");
+    expect(response.body.errorType).to.equal("Unauthorized");
+    expect(response.body.errorCode).to.equal("AUTH_005");
+  });
+
+  it("should return 401 Unauthorized if an invalid authorization header is provided", async () => {
+    token = "invalid token";
+    const response = await request(app)
+      .get("/auth/me")
+      .set("Authorization", token)
+      .expect(401);
+
+    expect(response.body.error).to.equal("Ungültiger Token");
+    expect(response.body.errorType).to.equal("Unauthorized");
+    expect(response.body.errorCode).to.equal("AUTH_006");
   });
 });
