@@ -2,10 +2,13 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./routes/authRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
-import "./db/index.js";
+import { connectToDB } from "./db/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Connect to MongoDB
+connectToDB();
 
 // Will allow requests from every origin
 app.use(cors({ origin: "*" }));

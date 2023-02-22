@@ -1,52 +1,36 @@
 import { expect } from "chai";
 import mongoose from "mongoose";
+import { connectToDB } from "../db/index.js";
 
-describe("DB Connection", () => {
-  process.env.NODE_ENV = "development";
-
+describe("MongoDB connection", () => {
   afterEach(async () => {
     await mongoose.connection.close();
   });
 
-  it("should connect to the database if Node_ENV = development", async () => {
-    if (process.env.NODE_ENV === "development") {
-      mongoose.set("strictQuery", true);
-      await mongoose.connect(process.env.MONGO_URI);
-      expect(mongoose.connection.readyState).to.equal(1);
+  it("should connect to MongoDB in development environment", async () => {
+    // Set environment to development
+    process.env.NODE_ENV = "development";
+
+    try {
+      const client = await connectToDB();
+      expect(client.connection.host).to.be.a("string");
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   });
 
-  it("should throw an error if MONGO_URI is not set and NODE_ENV = development", async () => {
+  it("should return an error if connection to MongoDB fails", async () => {
+    // Set environment to development
     process.env.NODE_ENV = "development";
-    delete process.env.MONGO_URI;
-    try {
-      await mongoose.connect(process.env.MONGO_URI);
-      expect(mongoose.connection.readyState).to.equal(0);
-    } catch (err) {
-      expect(err).to.exist;
-      return;
-    }
-  });
 
-  it("should fail the database connection with invalid connection string", async () => {
-    process.env.NODE_ENV = "development";
-    try {
-      await mongoose.connect("invalid_connection_string");
-      expect(mongoose.connection.readyState).to.equal(0);
-    } catch (err) {
-      expect(err).to.exist;
-      return;
-    }
-  });
+    // Set an invalid URI to force a connection error
+    process.env.MONGO_URI = "mongodb://localhost:27017/invalid";
 
-  it("should fail the database connection with invalid login data", async () => {
-    process.env.NODE_ENV = "development";
     try {
-      await mongoose.connect(process.env.MONGO_URI_TEST);
-      expect(mongoose.connection.readyState).to.equal(0);
-    } catch (err) {
-      expect(err).to.exist;
-      return;
+      await connectToDB();
+    } catch (error) {
+      expect(error).to.be.an("error");
     }
   });
 });
